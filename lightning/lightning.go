@@ -8,7 +8,6 @@ import (
 	"github.com/pingcap/dm/dm/unit"
 	tcontext "github.com/pingcap/dm/pkg/context"
 	"github.com/pingcap/dm/pkg/log"
-	"github.com/pingcap/dm/pkg/utils"
 	lightningConfig "github.com/pingcap/tidb-lightning/lightning/config"
 	"github.com/pingcap/tidb-lightning/lightning/mydump"
 	"github.com/pingcap/tidb-lightning/lightning/restore"
