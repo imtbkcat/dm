@@ -146,5 +146,5 @@ func (l *Lightning) Type() pb.UnitType {
 
 // IsFreshTask implements Unit.IsFreshTask
 func (l *Lightning) IsFreshTask(ctx context.Context) (bool, error) {
-	return false, nil
+	return true, nil
 }
