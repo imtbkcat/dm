@@ -2,6 +2,7 @@ package lightning
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/pingcap/dm/dm/config"
 	"github.com/pingcap/dm/dm/pb"
@@ -68,6 +69,7 @@ func (l *Lightning) Init(ctx context.Context) error {
 	lightningCf.App.CheckRequirements = false
 
 	err := lightningCf.Adjust()
+	fmt.Println(lightningCf.String())
 	return err
 }
 
@@ -93,6 +95,7 @@ func (l *Lightning) Process(ctx context.Context, pr chan pb.ProcessResult) {
 	}
 	l.rc = procedure
 	err = l.rc.Run(ctx)
+	fmt.Println(err)
 	l.rc.Wait()
 	if err != nil {
 		l.logCtx.L().Error("error occur during restore", log.ShortError(err))
