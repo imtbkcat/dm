@@ -68,7 +68,7 @@ func (l *Lightning) Init(ctx context.Context) error {
 	// Set misc config.
 	lightningCf.App.CheckRequirements = false
 
-	err = lightningCf.Adjust()
+	err := lightningCf.Adjust()
 	return err
 }
 
