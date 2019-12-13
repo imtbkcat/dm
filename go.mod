@@ -68,4 +68,4 @@ require (
 
 go 1.13
 
-replace github.com/pingcap/tidb-lightning => github.com/imtbkcat/tidb-lightning v0.0.0-20191212051913-7b4e3fba81f1
+replace github.com/pingcap/tidb-lightning => github.com/imtbkcat/tidb-lightning v0.0.0-20191213054825-b82e5ba7b1fe

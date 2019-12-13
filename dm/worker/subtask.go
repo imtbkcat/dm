@@ -15,6 +15,7 @@ package worker
 
 import (
 	"context"
+	"github.com/pingcap/dm/lightning"
 	"sync"
 	"time"
 
@@ -50,7 +51,7 @@ func createUnits(cfg *config.SubTaskConfig) []unit.Unit {
 	case config.ModeFull:
 		// NOTE: maybe need another checker in the future?
 		us = append(us, mydumper.NewMydumper(cfg))
-		us = append(us, loader.NewLoader(cfg))
+		us = append(us, lightning.NewLightning(cfg))
 	case config.ModeIncrement:
 		us = append(us, syncer.NewSyncer(cfg))
 	default:
