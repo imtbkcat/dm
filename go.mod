@@ -55,7 +55,7 @@ require (
 	github.com/unrolled/render v1.0.1
 	go.etcd.io/etcd v0.5.0-alpha.5.0.20191023171146-3cf2f69b5738
 	go.uber.org/zap v1.13.0
-	golang.org/x/net v0.0.0-20191112182307-2180aed22343
+	golang.org/x/net v0.0.0-20191112182307-2180aed22343 // indirect
 	golang.org/x/sys v0.0.0-20191210023423-ac6580df4449
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 	golang.org/x/tools v0.0.0-20191114222411-4191b8cbba09 // indirect
@@ -68,4 +68,4 @@ require (
 
 go 1.13
 
-replace github.com/pingcap/tidb-lightning => github.com/imtbkcat/tidb-lightning v0.0.0-20191213054825-b82e5ba7b1fe
+replace github.com/pingcap/tidb-lightning => github.com/imtbkcat/tidb-lightning v0.0.0-20191213154223-b7a606492779
