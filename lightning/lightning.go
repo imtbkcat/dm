@@ -85,6 +85,7 @@ func (l *Lightning) Process(ctx context.Context, pr chan pb.ProcessResult) {
 	}
 	l.mdl = mdl
 	dbMetas := mdl.GetDatabases()
+	fmt.Println(dbMetas[1].SchemaFile)
 	procedure, err := restore.NewRestoreController(ctx, dbMetas, l.ltnCfg)
 	if err != nil {
 		l.logCtx.L().Error("create RestoreController failed", log.ShortError(err))
