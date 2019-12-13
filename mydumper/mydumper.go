@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"regexp"
@@ -109,6 +110,11 @@ func (m *Mydumper) Process(ctx context.Context, pr chan pb.ProcessResult) {
 			isCanceled = true
 		default:
 		}
+	}
+
+	files, _ := ioutil.ReadDir(m.cfg.Dir)
+	for _, file := range files {
+		fmt.Println(file.Name())
 	}
 
 	m.logger.Info("dump data finished", zap.Duration("cost time", time.Since(begin)))
