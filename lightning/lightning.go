@@ -17,6 +17,7 @@ import (
 	lightningConfig "github.com/pingcap/tidb-lightning/lightning/config"
 	"github.com/pingcap/tidb-lightning/lightning/mydump"
 	"github.com/pingcap/tidb-lightning/lightning/restore"
+	"github.com/pingcap/tidb-lightning/lightning/web"
 	"go.uber.org/zap"
 )
 
@@ -82,6 +83,7 @@ func (l *Lightning) Init(ctx context.Context) error {
 func (l *Lightning) Process(ctx context.Context, pr chan pb.ProcessResult) {
 	fmt.Println("lightning begin")
 	files := CollectDirFiles(l.cfg.Dir)
+	web.InitProgress()
 	err := l.prepareTableFiles(files)
 
 	mdl, err := mydump.NewMyDumpLoader(l.ltnCfg)
