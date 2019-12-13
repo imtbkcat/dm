@@ -75,8 +75,10 @@ func (l *Lightning) Init(ctx context.Context) error {
 
 // Process implements Unit.Process
 func (l *Lightning) Process(ctx context.Context, pr chan pb.ProcessResult) {
+	fmt.Println("lightning begin")
 	mdl, err := mydump.NewMyDumpLoader(l.ltnCfg)
 	if err != nil {
+		fmt.Println("load fail")
 		l.logCtx.L().Error("create MyDumperLoader failed", log.ShortError(err))
 		pr <- pb.ProcessResult{
 			Errors: []*pb.ProcessError{unit.NewProcessError(pb.ErrorType_UnknownError, err)},

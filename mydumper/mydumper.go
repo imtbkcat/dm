@@ -89,7 +89,7 @@ func (m *Mydumper) Process(ctx context.Context, pr chan pb.ProcessResult) {
 		<-ctx.Done()
 		failpoint.Return()
 	})
-
+	fmt.Println("mydumper begin")
 	// NOTE: remove output dir before start dumping
 	// every time re-dump, loader should re-prepare
 	err := os.RemoveAll(m.cfg.Dir)
