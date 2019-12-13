@@ -47,12 +47,7 @@ func (l *Lightning) Init(ctx context.Context) error {
 	lightningCf.TiDB.Host = cfg.To.Host
 	lightningCf.TiDB.User = cfg.To.User
 	lightningCf.TiDB.Port = cfg.To.Port
-	psw, err := utils.Decrypt(cfg.To.Password)
-	if err != nil {
-		l.logCtx.L().Error("TiDB password format error", log.ShortError(err))
-		return err
-	}
-	lightningCf.TiDB.Psw = psw
+	lightningCf.TiDB.Psw = cfg.To.Password
 
 	// Set black & white list config.
 	lightningCf.BWList = cfg.BWList
