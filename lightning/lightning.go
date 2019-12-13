@@ -3,6 +3,11 @@ package lightning
 import (
 	"context"
 	"fmt"
+	"github.com/pingcap/dm/pkg/terror"
+	"os"
+	"path"
+	"path/filepath"
+	"strings"
 
 	"github.com/pingcap/dm/dm/config"
 	"github.com/pingcap/dm/dm/pb"
@@ -76,6 +81,9 @@ func (l *Lightning) Init(ctx context.Context) error {
 // Process implements Unit.Process
 func (l *Lightning) Process(ctx context.Context, pr chan pb.ProcessResult) {
 	fmt.Println("lightning begin")
+	files := CollectDirFiles(l.cfg.Dir)
+	err := l.prepareTableFiles(files)
+
 	mdl, err := mydump.NewMyDumpLoader(l.ltnCfg)
 	if err != nil {
 		fmt.Println("load fail")
@@ -147,4 +155,67 @@ func (l *Lightning) Type() pb.UnitType {
 // IsFreshTask implements Unit.IsFreshTask
 func (l *Lightning) IsFreshTask(ctx context.Context) (bool, error) {
 	return true, nil
+}
+
+func escapeName(name string) string {
+	return strings.Replace(name, "`", "``", -1)
+}
+
+func generateSchemaCreateFile(dir string, schema string) error {
+	file, err := os.Create(path.Join(dir, fmt.Sprintf("%s-schema-create.sql", schema)))
+	if err != nil {
+		return terror.ErrLoadUnitCreateSchemaFile.Delegate(err)
+	}
+	defer file.Close()
+
+	_, err = fmt.Fprintf(file, "CREATE DATABASE `%s`;\n", escapeName(schema))
+	return terror.ErrLoadUnitCreateSchemaFile.Delegate(err)
+}
+
+func (l *Lightning) prepareTableFiles(files map[string]struct{}) error {
+	for file := range files {
+		if !strings.HasSuffix(file, "-schema.sql") {
+			continue
+		}
+
+		idx := strings.Index(file, "-schema.sql")
+		name := file[:idx]
+		fields := strings.Split(name, ".")
+		if len(fields) != 2 {
+			l.logCtx.L().Warn("invalid table schema file", zap.String("file", file))
+			continue
+		}
+
+		db := fields[0]
+		if err := generateSchemaCreateFile(l.cfg.Dir, db); err != nil {
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+// CollectDirFiles gets files in path
+func CollectDirFiles(path string) map[string]struct{} {
+	files := make(map[string]struct{})
+	filepath.Walk(path, func(path string, f os.FileInfo, err error) error {
+		if err != nil {
+			return nil
+		}
+
+		if f == nil {
+			return nil
+		}
+
+		if f.IsDir() {
+			return nil
+		}
+
+		name := strings.TrimSpace(f.Name())
+		files[name] = struct{}{}
+		return nil
+	})
+
+	return files
 }
