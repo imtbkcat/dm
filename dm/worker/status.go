@@ -104,6 +104,8 @@ func (w *Worker) Status(stName string) []*pb.SubTaskStatus {
 					stStatus.Status = &pb.SubTaskStatus_Load{Load: us.(*pb.LoadStatus)}
 				case pb.UnitType_Sync:
 					stStatus.Status = &pb.SubTaskStatus_Sync{Sync: us.(*pb.SyncStatus)}
+				case pb.UnitType_Lightning:
+					stStatus.Status = &pb.SubTaskStatus_Lightning{Lightning: us.(*pb.LightningStatus)}
 				}
 			}
 		}

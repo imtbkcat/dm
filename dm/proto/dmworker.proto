@@ -195,6 +195,12 @@ message LoadStatus {
     string metaBinlog = 4;
 }
 
+// LightningStatus represent status for lightning unit
+message LightningStatus {
+    repeated string finished = 1;
+    repeated string doing = 2;
+}
+
 // ShardingGroup represents a DDL sharding group, this is used by SyncStatus, and is differ from ShardingGroup in syncer pkg
 // target: target table name
 // DDL: in syncing DDL
@@ -257,6 +263,7 @@ message SubTaskStatus {
         DumpStatus dump = 8;
         LoadStatus load = 9;
         SyncStatus sync = 10;
+        LightningStatus lightning = 11;
     }
 }
 

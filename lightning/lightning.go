@@ -2,6 +2,7 @@ package lightning
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/pingcap/dm/pkg/terror"
 	"os"
@@ -83,9 +84,9 @@ func (l *Lightning) Init(ctx context.Context) error {
 func (l *Lightning) Process(ctx context.Context, pr chan pb.ProcessResult) {
 	fmt.Println("lightning begin")
 	files := CollectDirFiles(l.cfg.Dir)
-	web.InitProgress()
+	web.BroadcastStartTask()
 	err := l.prepareTableFiles(files)
-
+	defer web.BroadcastEndTask(err)
 	mdl, err := mydump.NewMyDumpLoader(l.ltnCfg)
 	if err != nil {
 		fmt.Println("load fail")
@@ -98,6 +99,10 @@ func (l *Lightning) Process(ctx context.Context, pr chan pb.ProcessResult) {
 	l.mdl = mdl
 	dbMetas := mdl.GetDatabases()
 	web.BroadcastInitProgress(dbMetas)
+	fmt.Println("len of meta", len(dbMetas))
+	if web.DisplayCheckPointStatus() {
+		fmt.Println("current progress is empty")
+	}
 	procedure, err := restore.NewRestoreController(ctx, dbMetas, l.ltnCfg)
 	if err != nil {
 		l.logCtx.L().Error("create RestoreController failed", log.ShortError(err))
@@ -141,7 +146,31 @@ func (l *Lightning) Update(cfg *config.SubTaskConfig) error {
 
 // Status implements Unit.Status
 func (l *Lightning) Status() interface{} {
-	return nil
+	jsonDump, err := web.MarshalTaskProgress()
+	var tsProgress web.TaskProgress
+	if err != nil {
+		l.logCtx.L().Error("dump progress status failed.", log.ShortError(err))
+		return nil
+	}
+	err = json.Unmarshal(jsonDump, &tsProgress)
+	if err != nil {
+		l.logCtx.L().Error("unmarshal json failed.", log.ShortError(err))
+		return nil
+	}
+	finished := make([]string, 0)
+	doing := make([]string, 0)
+	for tblname, info := range tsProgress.Tables {
+		switch info.Status {
+		case web.TaskStatusCompleted:
+			finished = append(finished, tblname)
+		case web.TaskStatusRunning:
+			doing = append(doing, tblname)
+		}
+	}
+	return &pb.LightningStatus{
+		Finished: finished,
+		Doing:    doing,
+	}
 }
 
 // Error implements Unit.Error

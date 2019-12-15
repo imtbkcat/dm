@@ -151,10 +151,8 @@ github.com/grpc-ecosystem/grpc-gateway v1.12.1/go.mod h1:8XEsbTttt/W+VvjtQhLACqC
 github.com/hashicorp/hcl v1.0.0/go.mod h1:E5yfLk+7swimpb2L/Alb/PJmXilQ/rhwaUYs4T20WEQ=
 github.com/hpcloud/tail v1.0.0 h1:nfCOvKYfkgYP8hkirhJocXT2+zOD8yUNjXaWfTlyFKI=
 github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpOxQnU=
-github.com/imtbkcat/tidb-lightning v0.0.0-20191213054825-b82e5ba7b1fe h1:EvpdsE/OWKTE3Bol+w7QuJtGofoAF3rPgiVAcIFnuPI=
-github.com/imtbkcat/tidb-lightning v0.0.0-20191213054825-b82e5ba7b1fe/go.mod h1:awyt5kB8sGznY8f76hbKoELABctPt0mZRL2R7ntLRvI=
-github.com/imtbkcat/tidb-lightning v0.0.0-20191213154223-b7a606492779 h1:MhdLKP0KLeIdx/cUiv+LYB2cnKm4IzPJVASfkYuIxXc=
-github.com/imtbkcat/tidb-lightning v0.0.0-20191213154223-b7a606492779/go.mod h1:awyt5kB8sGznY8f76hbKoELABctPt0mZRL2R7ntLRvI=
+github.com/imtbkcat/tidb-lightning v0.0.0-20191215152707-1735c7566cd5 h1:o3Qcsu4fs00kGWrfdvcKlsVGUl9Z/kEelKJgt+YEYn0=
+github.com/imtbkcat/tidb-lightning v0.0.0-20191215152707-1735c7566cd5/go.mod h1:awyt5kB8sGznY8f76hbKoELABctPt0mZRL2R7ntLRvI=
 github.com/inconshreveable/mousetrap v1.0.0 h1:Z8tu5sraLXCXIcARxBp/8cbvlwVa7Z1NHg9XEKhtSvM=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
 github.com/jeremywohl/flatten v0.0.0-20190921043622-d936035e55cf h1:Ut4tTtPNmInWiEWJRernsWm688R0RN6PFO8sZhwI0sk=
